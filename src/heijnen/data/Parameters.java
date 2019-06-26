@@ -17,6 +17,7 @@ public class Parameters {
 	public static final double avgSpeed = 15;				// km/h, average speed trucks are able to drive at
 	
 	public static final double transShipmentCosts = 2.6; 	// costs per container shipped from transshipment hub to waste processor, based on calculation in report
+	// COSTS ARE 2.6!!
 	
 	public static final int householdWeight = 100;		// kg weight per m^3, household waste
 	public static final int paperWeight     = 70;		// kg weight per m^3, paper waste

@@ -51,7 +51,7 @@ public class Route {
 		
 		if (point instanceof Container) {
 			containersInRoute.add((Container) point);
-			expectedRouteLoad += ((Container) point).expCurrFill;
+			expectedRouteLoad += ((Container) point).expCurrFill;			
 		}
 		
 		if (routingSequence.size() > 1) {

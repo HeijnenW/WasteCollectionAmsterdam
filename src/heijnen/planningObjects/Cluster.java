@@ -105,6 +105,7 @@ public class Cluster {
 		
 		else if (ExperimentController.travelCostsApproxEF.equals("CP")) {
 			
+			margCosts = 999;
 			double tempMargCosts = 999;
 			for (int i = 0; i < this.clusteredContainers.size(); i++) {
 				

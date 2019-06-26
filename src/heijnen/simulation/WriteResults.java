@@ -488,7 +488,7 @@ public class WriteResults {
 	 * 		Opens the desired file
 	 */
 	public static void openOutputFile(String outputFileName) {
-		File file = new File("C:/Users/WHeijnen/eclipse-workspace/WasteCollectionAmsterdam/" + outputFileName);
+		File file = new File("C:/Users/WHeijnen/git/repository/WasteCollectionAmsterdam/" + outputFileName);
 		if (!Desktop.isDesktopSupported()) {
 			System.out.println("Desktop is not supported");
 			return;
