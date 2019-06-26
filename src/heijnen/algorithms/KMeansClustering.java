@@ -3,6 +3,7 @@ package heijnen.algorithms;
 import java.util.ArrayList;
 
 import heijnen.data.Parameters;
+import heijnen.main.Main;
 import heijnen.objects.Container;
 import heijnen.planningObjects.Cluster;
 import heijnen.simulation.ExperimentController;
@@ -108,10 +109,28 @@ public class KMeansClustering {
 			}
 		}
 			
+		for (int i = 0; i < clusterList.size(); i++) {
+			if (clusterList.get(i).clusteredContainers.size() == 0) {
+				clusterList.remove(i);
+				System.out.println("leeg cluster aan het einde van kmeans verwijderd");
+			}
+		}
+		
 		
 		// TODO: temp
 		//WriteResults.writeResults(WriteResults.clusterQGISVisualization(clusterList), "XfinalClusters.txt");
 		
+		
+		// record number of vehicle capacity violations
+		for (int i = 0; i < clusterList.size(); i++) {
+			Cluster cluster = clusterList.get(i);
+			double actualClusterLoad = 0;
+			for (int j = 0; j < cluster.clusteredContainers.size(); j++) {
+				actualClusterLoad += cluster.clusteredContainers.get(j).currFill;
+			}
+			Main.routeLoads.add(actualClusterLoad);
+		}
+				
 		return clusterList;
 	}
 	
@@ -138,7 +157,7 @@ public class KMeansClustering {
 				}
 				
 				//containerList.get(i).clusterPriority = distClosestCluster / containerList.get(i).expCurrFill;		// TODO: which priority measure to use?
-				containerList.get(i).clusterPriority = containerList.get(i).expCurrFill / distClosestCluster;
+				containerList.get(i).clusterPriority = containerList.get(i).expCurrFill / distClosestCluster;		// highest priority value goes first
 				containerList.get(i).closestCluster = closestCluster;
 			}
 			

@@ -17,8 +17,8 @@ public class Container extends Point {
 	public double capacity;
 	public Route assignedRoute;			// implement everywhere
 	
-	private double shapePweek;
-	private double scalePweek;	
+	public double shapePweek;
+	public double scalePweek;	
 				
 	public double currFill;
 	public double expCurrFill;
@@ -186,7 +186,7 @@ public class Container extends Point {
 		this.expCurrFill = 0;
 		
 		// reset DED
-		this.DED = ExperimentController.currDay + this.EIL;
+		this.DED = ExperimentController.currDay + Math.max(this.EIL, 1);
 		
 		// update lastDayEmptied
 		this.lastDayEmptied = ExperimentController.currDay;

@@ -11,6 +11,7 @@ import heijnen.data.Data;
 import heijnen.data.Parameters;
 import heijnen.main.Main;
 import heijnen.objects.Container;
+import heijnen.objects.Point;
 import heijnen.objects.TransshipmentHub;
 import heijnen.objects.WasteProcessor;
 import heijnen.objects.Wharf;
@@ -65,6 +66,41 @@ public class Day {
 		initDay();
 		
 		
+		// AMSTERDAM START
+		/*
+		
+		// init dayAssignment array
+		dayAssignment.add(new ArrayList<Cluster>());
+		
+		// add all overflowed containers
+		for (int i = 0; i < overflowedContainersYesterday.size(); i++) {
+			Cluster cluster = new Cluster(clusterList.size(), dayNr);
+			cluster.addContainer(overflowedContainersYesterday.get(i), true);
+			dayAssignment.get(0).add(cluster);
+		}
+		
+		// select containers that have DED today
+		for (int i = 0; i < Data.containerList.size(); i++) {
+			Container container = Data.containerList.get(i);
+			if ((container.DED == dayNr) && (container.overflowed == false)) {
+				Cluster cluster = new Cluster(clusterList.size(), dayNr);
+				cluster.addContainer(container, true);
+				dayAssignment.get(0).add(cluster);
+			}
+		}
+		
+		// apply k-means algorithm to first day of day assignment
+		ArrayList<Cluster> preprocessedClusters = new ArrayList<Cluster>(KMeansClustering.basedOnClusters(dayAssignment.get(0)));
+		dayAssignment.get(0).clear();
+		dayAssignment.add(0, preprocessedClusters);
+		
+		*/
+		// AMSTERDAM END 
+
+		
+		
+		// START TEMP TEXT BLOCK
+	
 		////		   PHASE I			  ////
 		////	 Container selection	  ////
 				
@@ -85,8 +121,11 @@ public class Day {
 		dayAssignment.add(0, preprocessedClusters);
 		
 		// apply local improvement on total day assignment
-		dayAssignment = DayAssignment.localSearchImprDayAssignment(dayAssignment);
+		//dayAssignment = DayAssignment.localSearchImprDayAssignment(dayAssignment);
 			
+		
+		 //TODO: END TEMP TEXT BLOCK
+		
 			
 			
 		////		PHASE III		  ////
@@ -101,7 +140,10 @@ public class Day {
 			plannedRouteList.set(i, newRoute);
 		}
 			
-			
+		//TODO: VISUALIZATION CHECKS
+		//WriteResults.writeResults(WriteResults.clusterQGISVisualization(dayAssignment.get(0)), "outputCluster.txt");
+		//WriteResults.writeResults(WriteResults.routeQGISVisualization(plannedRouteList), "outputRoutes.txt");
+		
 			
 		////	 	 PHASE IV		     ////
 		////	 Online rescheduling     ////
@@ -109,6 +151,61 @@ public class Day {
 		// execute and evaluate planning
 		actualRouteList = executeRoutes(plannedRouteList);		// only first day is actually executed
 		evaluateActualRoutes(actualRouteList);
+		
+		// record number of vehicles used (for max)
+		if (actualRouteList.size() > Main.maxVehicles) {
+			Main.maxVehicles = actualRouteList.size();
+		}
+		
+		// complicated version of tour capacity check
+		for (int i = 0; i < actualRouteList.size(); i++) {
+			Route route = actualRouteList.get(i);
+			
+			// for each tour
+			for (int j = 0; j < route.indexDumpLocations.size(); j++) {
+				
+				double tourLoad = 0;
+				
+				// if first tour
+				if (j == 0) {
+					for (int k = 0; k < route.indexDumpLocations.get(0); k++) {
+						Point point = route.routingSequence.get(k);
+						if (point instanceof Container) {
+							tourLoad += ((Container) point).currFill;
+						}	
+					}
+					
+					// check if violation
+					if (tourLoad > Parameters.vehicleCapacity) {
+						Main.violations++;
+					}
+					else {
+						Main.nonViolations++;
+					}
+					
+				}
+				// else
+				else {
+					for (int k = route.indexDumpLocations.get(j-1); k < route.indexDumpLocations.get(j); k++) {
+						Point point = route.routingSequence.get(k);
+						if (point instanceof Container) {
+							tourLoad += ((Container) point).currFill;
+						}						
+					}
+					
+					// check if violation
+					if (tourLoad > Parameters.vehicleCapacity) {
+						Main.violations++;
+					}
+					else {
+						Main.nonViolations++;
+					}
+				}
+						
+			}
+		}
+		
+		
 			
 		// empty emptied containers
 		int noEmptiedOverflowedCont = 0;
@@ -156,9 +253,6 @@ public class Day {
 			System.out.println("DEBUG: niet alle overstroomde containers van gisteren zijn geleegd");
 		}
 		
-		
-		// reset overflowed containers
-		overflowedContainersYesterday.clear();
 			
 		// fill containers with randomly generated deposits
 		for (int i = 0; i < Data.containerList.size(); i++) {
@@ -182,6 +276,34 @@ public class Day {
 		if (dayNr >= Parameters.experimentWarmupPeriod) {
 			WriteResults.saveDayResults();
 		}
+
+		
+		
+		
+		// TODO: NEW
+		// forget information gathered of today
+		DayAssignment.clusterList.clear();
+		clusterList.clear();
+		selectedContainers.clear();
+		dayAssignment.clear();
+		plannedRouteList.clear();
+		actualRouteList.clear();
+		overflowedContainersYesterday.clear();
+		
+		totalDistance     = 0;
+		totalDuration     = 0;
+		noEmptyings       = 0;
+		noOverflows       = 0;
+		noDumpsWP         = 0;
+		noDumpsSF         = 0;
+		avgFillContainers = 0;
+		avgFillVehicles   = 0;
+		vehiclesUsed      = 0;
+		avgExpFillContainers = 0;
+		
+		noContTooLate = 0;
+		noContTooEarly = 0;
+		noContOnTime = 0;
 	}
 	
 	
@@ -189,6 +311,7 @@ public class Day {
 		// initialize day
 		dayNr = ExperimentController.currDay;
 		overflowedContainersYesterday.addAll(ExperimentController.overflowedContainers);		// ExpContr.overflowedContainers is reset per container when they are emptied
+		ExperimentController.overflowedContainers.clear();
 		
 		DayAssignment.clusterList.clear();
 		clusterList.clear();

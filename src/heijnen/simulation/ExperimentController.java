@@ -2,8 +2,10 @@ package heijnen.simulation;
 
 import java.util.ArrayList;
 
+import heijnen.algorithms.AmsterdamPlanning;
 import heijnen.data.Data;
 import heijnen.data.Parameters;
+import heijnen.main.Main;
 import heijnen.objects.Container;
 import heijnen.objects.TransshipmentHub;
 
@@ -77,16 +79,25 @@ public class ExperimentController {
 	 */
 	public static void resetRepl() {
 		
+		
 		// reset relevant container variables
 		for (int i = 0; i < Data.containerList.size(); i++) {
 			Container container = Data.containerList.get(i);
+			
 			container.currFill = 0;
 			container.expCurrFill = 0;
 			container.lastDayEmptied = 0;
 			container.DED = container.EIL;
+			container.overflowed = false;
+			container.clusterPriority = 0;
+			container.closestCluster = null;
 		}
 		
+		
 		overflowedContainers.clear();
+		
+		// TODO: NEW
+		Day.overflowedContainersYesterday.clear();
 		
 		// reset KPIs tracking replication performance
 		WriteResults.totalDistancesRepl.clear();
