@@ -2,8 +2,6 @@ package heijnen.main;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.distribution.GammaDistribution;
-
 import heijnen.data.Data;
 import heijnen.data.Parameters;
 import heijnen.objects.Container;
