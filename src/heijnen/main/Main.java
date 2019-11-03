@@ -9,6 +9,8 @@ import heijnen.simulation.SimulationController;
 
 public class Main {
 	
+	//test
+	
 	public static long startTime = System.nanoTime();
 	public static long maxVehicles = 0;
 	public static ArrayList<Double> routeLoads = new ArrayList<Double>();
