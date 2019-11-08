@@ -6,7 +6,7 @@ import heijnen.planningObjects.Cluster;
 import heijnen.simulation.Day;
 import heijnen.simulation.ExperimentController;
 import heijnen.simulation.SimulationController;
-import heijnen.simulation.WriteResults;
+
 
 public class DayAssignment {
 
@@ -15,7 +15,6 @@ public class DayAssignment {
 	
 	
 	//// 		FUNCTIONS		  ////
-	
 	
 	/*
 	 * 		Function that ensures that the containers that overflowed yesterday are selected for tomorrow
@@ -70,11 +69,14 @@ public class DayAssignment {
 			distToCluster = 999;
 		}
 		
-		// TODO: temporary visual check
+		// Possible visualization of clusters up to this point
 		// WriteResults.writeResults(WriteResults.clusterQGISVisualization(clusterList), "outputVisualization.txt");
 	}
 	
 	
+	/*
+	 * 		Clustering of the selected containers
+	 */
 	public static ArrayList<ArrayList<Cluster>> cheapestInsertionClustering(ArrayList<Container> selectedContainers, int lengthPlanningHor) {
 		
 		// initialize relevant arrays
@@ -83,7 +85,7 @@ public class DayAssignment {
 			dayAssignment.add(new ArrayList<Cluster>());
 		}
 		
-		// add clusters from overflowed containers to dayAssignment arrays
+		// add the clusters that were made from overflowed containers to dayAssignment arrays to serve as basis for this heuristic
 		for (int i = 0; i < clusterList.size(); i++) {
 			dayAssignment.get(0).add(clusterList.get(i));
 		}
@@ -179,20 +181,21 @@ public class DayAssignment {
 			// perform cheapest insertion
 			if (addNewCluster == false) {
 				
-			/*	// TODO: temporary tracking of marginal vs. incremental costs
-				SimulationController.noObs++;
-				double margCosts = ciCluster.margCostOfAddingContainer(ciContainer);
-				double incrCosts = ciContainer.calcPenalty(ciCluster.dayNr, ciCluster.margCostOfAddingContainer(ciContainer));
 				
+			/*	
+			// Temporary tracking of marginal vs. incremental costs
+			SimulationController.noObs++;
+			double margCosts = ciCluster.margCostOfAddingContainer(ciContainer);
+			double incrCosts = ciContainer.calcPenalty(ciCluster.dayNr, ciCluster.margCostOfAddingContainer(ciContainer));
 				
-				SimulationController.totMargCosts += ciCluster.margCostOfAddingContainer(ciContainer);
+			SimulationController.totMargCosts += ciCluster.margCostOfAddingContainer(ciContainer);
 				
-				if (ciCluster.dayNr > ciContainer.DED) {
-					SimulationController.totLateCosts += ciContainer.calcPenalty(ciCluster.dayNr, margCosts);
-				}
-				else if (ciCluster.dayNr < ciContainer.DED) {
-					SimulationController.totEarlyCosts += ciContainer.calcPenalty(ciCluster.dayNr, margCosts);
-				}
+			if (ciCluster.dayNr > ciContainer.DED) {
+				SimulationController.totLateCosts += ciContainer.calcPenalty(ciCluster.dayNr, margCosts);
+			}
+			else if (ciCluster.dayNr < ciContainer.DED) {
+				SimulationController.totEarlyCosts += ciContainer.calcPenalty(ciCluster.dayNr, margCosts);
+			}
 			*/
 					
 				ciCluster.addContainer(ciContainer, true);
@@ -229,7 +232,12 @@ public class DayAssignment {
 	
 	
 	/*
-	 * 		function that applies local search techniques to improve the dayAssignment
+	 * 		Function that applies local search techniques to improve the dayAssignment
+	 * 
+	 * 		NOTE: 
+	 * 		NOT IN USE, LOCAL SEARCH RESULTED IN WORSE OVERALL PERFORMANCE, PRESUMABLY CAUSED BY DIFFICULTIES IN JUDGING CLUSTERS WHEN VRP DISTANCES ARE
+	 * 		NOT YET KNOWN.
+	 * 
 	 */
 	public static ArrayList<ArrayList<Cluster>> localSearchImprDayAssignment(ArrayList<ArrayList<Cluster>> dayAssignment) {
 		

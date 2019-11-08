@@ -13,11 +13,6 @@ import heijnen.simulation.WriteResults;
 
 public class RouteConstruction {
 
-	////		FIELDS			////
-	
-	
-	//// 		FUNCTIONS		 ////
-
 	/*
 	 * 		Implementation of nearest insertion heuristic that can be used for both 'using' and 'disregarding' clusters
 	 */
@@ -184,7 +179,7 @@ public class RouteConstruction {
 					i--;																// as no container is chosen from the list
 					tempExpRouteLoad = 0;
 					
-					if (Parameters.workingHours - route.routeDuration < 1) {			// TODO: hard-coded algorithm setting
+					if (Parameters.workingHours - route.routeDuration < 1) {			// hard-coded algorithm setting
 						routeFinished = true;
 						break;		// if time left for route is too small, do not bother adding a very small tour, but restart with another vehicle
 					}

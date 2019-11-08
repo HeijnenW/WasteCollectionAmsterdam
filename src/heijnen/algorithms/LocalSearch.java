@@ -59,7 +59,6 @@ public class LocalSearch {
 	 */
 	public static void clusterOneMove(Cluster donorCluster, Cluster receivingCluster, Container container) {
 		
-		// TODO: feasibility checks
 		boolean feasible = true;
 		
 		// check number of containers in both clusters
@@ -97,7 +96,7 @@ public class LocalSearch {
 	 */
 	public static Route twoOptImplementation(Route route) {
 	
-		// TODO: temporary
+		// Possible visualization of route
 		//ArrayList<Route> routeList = new ArrayList<Route>();
 		//routeList.add(route);
 		//WriteResults.writeResults(WriteResults.routeQGISVisualization(routeList), "routeQGISVis.txt");
@@ -173,13 +172,16 @@ public class LocalSearch {
 			route.updateRouteCosts();
 		}
 		
-		// TODO: temporary
+		// Possible visualization of routes
 		//WriteResults.writeResults(WriteResults.routeQGISVisualization(routeList), "routeQGISVis.txt");
 		
 		return route;
 	}
 
 	
+	/*
+	 * 		Returns the distance of a tour (a list of points)
+	 */
 	public static double evaluateTour(ArrayList<Point> tourSequence) {
 		double distanceCosts = 0;
 		for (int i = 0; i < tourSequence.size() - 1; i++) {

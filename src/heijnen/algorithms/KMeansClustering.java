@@ -1,20 +1,22 @@
 package heijnen.algorithms;
 
 import java.util.ArrayList;
-
 import heijnen.data.Parameters;
 import heijnen.main.Main;
 import heijnen.objects.Container;
 import heijnen.planningObjects.Cluster;
 import heijnen.simulation.ExperimentController;
-import heijnen.simulation.WriteResults;
 
+
+/*
+ * 		Algorithm used to transform initial clusters into clusters better suited for VRP-insertion algorithm
+ */
 public class KMeansClustering {
 
 	
 	public static ArrayList<Cluster> basedOnClusters(ArrayList<Cluster> inputClusters) {
 		
-		// TODO: temp
+		// possible visualization of clusters before k-means clustering
 		//WriteResults.writeResults(WriteResults.clusterQGISVisualization(inputClusters), "XinputClusters.txt");
 		
 		// determine k
@@ -50,7 +52,7 @@ public class KMeansClustering {
 		
 		if (k > 1) {
 
-			// find and create k starting points for initial clusters
+			// find and create k starting points for initial clusters, starting points are based on largest input clusters
 			for (int i = 0; i < k; i++) {
 				Cluster largestCluster = null;
 				double loadLargestCluster = 0;
@@ -117,7 +119,7 @@ public class KMeansClustering {
 		}
 		
 		
-		// TODO: temp
+		// Possible visualization of clusters after k-means clustering algorithm
 		//WriteResults.writeResults(WriteResults.clusterQGISVisualization(clusterList), "XfinalClusters.txt");
 		
 		
@@ -140,7 +142,7 @@ public class KMeansClustering {
 	 */
 	public static ArrayList<Cluster> assignContainersToClosestClusterXIterations(ArrayList<Cluster> clusterList, ArrayList<Container> containerList) {
 		
-		for (int loop = 0; loop < 10; loop++) {
+		for (int loop = 0; loop < 10; loop++) {				// hard-coded 10 loops for k-means algorithm 
 		
 			// (re)calculate priorities for all containers
 			for (int i = 0; i < containerList.size(); i++) {
@@ -156,7 +158,6 @@ public class KMeansClustering {
 					}
 				}
 				
-				//containerList.get(i).clusterPriority = distClosestCluster / containerList.get(i).expCurrFill;		// TODO: which priority measure to use?
 				containerList.get(i).clusterPriority = containerList.get(i).expCurrFill / distClosestCluster;		// highest priority value goes first
 				containerList.get(i).closestCluster = closestCluster;
 			}
@@ -185,8 +186,6 @@ public class KMeansClustering {
 				}
 				
 				if (highestPriorityCont.closestCluster == null) {
-					
-					//System.out.println("WOW, k clusters is te weinig, nu proppen geblazen");
 					
 					// this will only occur if the clusters are made so that the last container does not fit, then add disregarding capacity limits
 					Cluster closestCluster = null;
@@ -234,7 +233,7 @@ public class KMeansClustering {
 			// update centroids of all clusters as this was skipped when adding/removing the containers
 			recomputeClusterCentroids(clusterList);
 			
-			// TODO: temp
+			// Possible visualization of clusters during each iteration of the k-means clustering algorithm
 			//String iterationString = "XAfterIteration" + Integer.toString(loop) + "Clusters.txt";
 			//WriteResults.writeResults(WriteResults.clusterQGISVisualization(clusterList), iterationString);
 			
@@ -244,7 +243,7 @@ public class KMeansClustering {
 	}
 	
 	
-	// MAYBE NOT NECESSARY, ADDING AND REMOVING CONTAINERS FROM CLUSTER WITH THE HANDMADE FUNCTION ALREADY UPDATES CENTROIDS
+	// MAY NOT BE NECESSARY, ADDING AND REMOVING CONTAINERS FROM CLUSTER WITH THE HANDMADE FUNCTION ALREADY UPDATES CENTROIDS
 	public static void recomputeClusterCentroids(ArrayList<Cluster> clusterList) {
 		for (int i = 0; i < clusterList.size(); i++) {
 			clusterList.get(i).updateCentroid();

@@ -1,13 +1,9 @@
 package heijnen.simulation;
 
 import java.util.ArrayList;
-
-import heijnen.algorithms.AmsterdamPlanning;
 import heijnen.data.Data;
 import heijnen.data.Parameters;
-import heijnen.main.Main;
 import heijnen.objects.Container;
-import heijnen.objects.TransshipmentHub;
 
 public class ExperimentController {
 
