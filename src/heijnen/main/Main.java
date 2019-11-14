@@ -8,18 +8,13 @@ import heijnen.objects.Container;
 import heijnen.simulation.SimulationController;
 
 public class Main {
-	
-	//test
-	
+
 	public static long startTime = System.nanoTime();
 	public static long maxVehicles = 0;
 	public static ArrayList<Double> routeLoads = new ArrayList<Double>();
-	
 	public static int violations = 0;
 	public static int nonViolations = 0;
-	
-	//public static int totDED = 0;
-	//public static int counterDED = 0;
+
 
 	public static void main(String[] args) {
 		
@@ -30,6 +25,7 @@ public class Main {
 		SimulationController.startSim();
 		
 
+		// several temporary checks for input
 		/*double totWasteGenerated = 0;
 		// 3 replications
 		for (int i = 0; i < 3; i++) {
@@ -98,6 +94,7 @@ public class Main {
 		System.out.println("Total time elapsed: " + ((endTime - startTime)/1000000000) + " seconds");
 		System.out.println("Max vehicles used: " + maxVehicles);		
 
+		// counting the number of times the capacity of a vehicle is exceeded, there is currently no method to schedule the remaining containers, so this should be kept to a minimum
 		/*
 		int violations = 0;
 		int nonViolations = 0;
@@ -112,9 +109,7 @@ public class Main {
 		
 		System.out.println("Violations: " + violations);
 		System.out.println("Non violations: " + nonViolations);
-		*/
-		
 		System.out.println("Violations: " + violations + ", non-violations: " + nonViolations);
+		*/
 	}
-	
 }

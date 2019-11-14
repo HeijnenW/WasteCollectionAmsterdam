@@ -8,7 +8,7 @@ public class Parameters {
 	public static final double hourlyWage = 40;
 	public static final double overtimePremium = 1.4;			
 	public static final double timeBufferTotalRoute = 0.66;		// 40 minutes buffer at the end of a total (day-spanning) route to make sure, during construction, there is still place for a last container -> dump -> wharf
-																// TODO: hard-coded algorithm setting
+																// TODO: (hard-coded)
 	
 	public static final double contProcTime  = 0.05;			// processing time, container
 	public static final double procProcTime  = 0.25;			// processing time, waste processor
@@ -16,8 +16,7 @@ public class Parameters {
 	
 	public static final double avgSpeed = 15;				// km/h, average speed trucks are able to drive at
 	
-	public static final double transShipmentCosts = 2.6; 	// costs per container shipped from transshipment hub to waste processor, based on calculation in report
-	// COSTS ARE 2.6!!
+	public static final double transShipmentCosts = 2.6; 	// costs per container shipped from transshipment hub to waste processor, approximated costs for Amsterdam Zuidoost, TODO: (hardcoded)
 	
 	public static final int householdWeight = 100;		// kg weight per m^3, household waste
 	public static final int paperWeight     = 70;		// kg weight per m^3, paper waste
