@@ -171,7 +171,7 @@ public class Container extends Point {
 		
 		GammaDistribution gamma = new GammaDistribution(shapeDay, scaleDay);
 		double rnd = SimulationController.rgen.nextDouble();
-		double addFill = gamma.inverseCumulativeProbability(rnd);				// TODO: test accuracy of method
+		double addFill = gamma.inverseCumulativeProbability(rnd);
 		
 		this.expCurrFill += shapeDay * scaleDay;
 		this.currFill    += addFill;
