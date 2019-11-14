@@ -68,6 +68,12 @@ public class Day {
 		
 		// AMSTERDAM START
 		/*
+		 * 
+		
+		// This block aims to recreate the static planning method of Amsterdam by determining one fixed emptying interval for each container and
+		// using this to schedule all containers. This approach is therefore not dynamic in any way and does not consider the possible benefits of 
+		// moving containers over days to improve routing efficiency. This makes it perfect to compare with the new method that does try to reap these
+		// benefits. 
 		
 		// init dayAssignment array
 		dayAssignment.add(new ArrayList<Cluster>());
@@ -99,7 +105,8 @@ public class Day {
 
 		
 		
-		// START TEMP TEXT BLOCK
+		// NOVEL PROPOSED SOLUTION APPROACH START
+		
 	
 		////		   PHASE I			  ////
 		////	 Container selection	  ////
@@ -124,7 +131,7 @@ public class Day {
 		//dayAssignment = DayAssignment.localSearchImprDayAssignment(dayAssignment);
 			
 		
-		 //TODO: END TEMP TEXT BLOCK
+		 // END NOVEL PROPOSED SOLUTION APPROACH
 		
 			
 			
@@ -140,7 +147,7 @@ public class Day {
 			plannedRouteList.set(i, newRoute);
 		}
 			
-		//TODO: VISUALIZATION CHECKS
+		// possible visualization of clusters and routes
 		//WriteResults.writeResults(WriteResults.clusterQGISVisualization(dayAssignment.get(0)), "outputCluster.txt");
 		//WriteResults.writeResults(WriteResults.routeQGISVisualization(plannedRouteList), "outputRoutes.txt");
 		
@@ -278,9 +285,6 @@ public class Day {
 		}
 
 		
-		
-		
-		// TODO: NEW
 		// forget information gathered of today
 		DayAssignment.clusterList.clear();
 		clusterList.clear();
@@ -336,13 +340,11 @@ public class Day {
 		noContOnTime = 0;
 	}
 	
-	/*
-	 * 		Execute initially constructed routes. Possibly, new routes have to be constructed to prevent
-	 * 		overflowing containers.
-	 */
+	
+	// Execute initially constructed routes. Possibly, new routes have to be constructed to prevent overflowing containers.
+	// TODO: incomplete because of time constraints, now just returns the initial route-list without changing anything.
 	public static ArrayList<Route> executeRoutes(ArrayList<Route> routeList) {
-		
-		// TODO: dynamic alteration of routes!
+
 		
 		if (ExperimentController.onlineReschedulingTechniqueEF.equals("passive")) {
 			return routeList;

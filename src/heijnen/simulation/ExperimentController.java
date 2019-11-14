@@ -89,10 +89,8 @@ public class ExperimentController {
 			container.closestCluster = null;
 		}
 		
-		
 		overflowedContainers.clear();
 		
-		// TODO: NEW
 		Day.overflowedContainersYesterday.clear();
 		
 		// reset KPIs tracking replication performance
