@@ -42,6 +42,7 @@ public class Cluster {
 	
 	// FUNCTIONS
 	
+	// add a container to a cluster, option to update the cluster centroid if required
 	public void addContainer(Container container, boolean updateCentroid) {
 		
 		// add container to clusteredContainer-list
@@ -68,6 +69,8 @@ public class Cluster {
 		
 	}
 	
+	
+	// remove a container from the cluster, option to update the cluster centroid if required
 	public void removeContainer(Container container, boolean updateCentroid) {
 	
 		// remove container from clusteredContainer-list
@@ -90,9 +93,7 @@ public class Cluster {
 	}
 
 
-	
-	
-
+	// calculate the marginal costs of adding the container to this cluster, based on the chosen cluster travel costs approximation
 	public double margCostOfAddingContainer(Container container) {
 		double margCosts = 0;
 		
@@ -241,15 +242,14 @@ public class Cluster {
 	}
 	
 	
-	/*
-	 * 		calculates the distance of the container to the centroid of the cluster
-	 */
+	// calculates the distance of the container to the centroid of the cluster
 	public double distCentroidToContainer(Container container) {
 		double distanceToCentroid = Data.distance(clusterCentroidLat, clusterCentroidLon, container.getLat(), container.getLon());
 		return distanceToCentroid;
 	}
 	
 	
+	// calculates and updates the cluster centroid
 	public void updateCentroid() {
 		double sumLat = 0;
 		double sumLon = 0;
@@ -264,9 +264,8 @@ public class Cluster {
 	}
 	
 	
-	/*
-	 * 		Update cost approximations (incremental and travel), used to evaluate local search improvements, only call if necessary
-	 */
+
+	// update cost approximations (incremental and travel), used to evaluate local search improvements, only call if necessary
 	public void updateClusterCostApproximations() {
 		
 		// initialize values

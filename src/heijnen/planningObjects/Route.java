@@ -11,7 +11,6 @@ import heijnen.simulation.ExperimentController;
 public class Route {
 
 	////		FIELDS		 ////
-	
 	public ArrayList<Point> routingSequence = new ArrayList<Point>();
 	public ArrayList<Container> containersInRoute = new ArrayList<Container>();
 	public ArrayList<Integer> indexDumpLocations = new ArrayList<Integer>();
@@ -39,6 +38,7 @@ public class Route {
 	
 	////		FUNCTIONS		 ////
 	
+	// add a point (either container, transshipment hub, waste processor, or wharf) to the route at a certain index
 	public void addPointToRoute(int index, Point point) {
 		
 		double margDist = evaluateAddingPoint(index, point);
@@ -62,9 +62,8 @@ public class Route {
 	}
 	
 	
-	/*
-	 * 		Evaluate the additional distance that is traveled when adding the point between index-1 and index+1
-	 */
+	
+	// evaluate the additional distance that is traveled when adding the point between index-1 and index+1
 	public double evaluateAddingPoint(int index, Point point) {
 		double margDist = 0;
 		
@@ -83,7 +82,8 @@ public class Route {
 		return margDist;
 	}
 	
-		
+	
+	// update the routing costs (i.e. distance and duration)
 	public void updateRouteCosts() {
 		double distanceCosts = 0;
 		double drivingDuration = 0;
