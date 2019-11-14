@@ -24,9 +24,4 @@ public class Vehicle {
 		this.currPosition = Data.wharfList.get(0);
 	}
 	
-	
-	
-	////		FUNCTIONS		  ////
-
-
 }

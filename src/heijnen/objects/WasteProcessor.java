@@ -3,6 +3,7 @@ package heijnen.objects;
 import heijnen.data.Parameters;
 
 public class WasteProcessor extends Point {
+	
 	// FIELDS
 	private String wasteFraction;
 	
@@ -14,8 +15,6 @@ public class WasteProcessor extends Point {
 	}
 	
 	// FUNCTIONS
-	
-	
 	private void setProcTime(double procproctime) {
 		this.procTime = procproctime;
 		

@@ -15,7 +15,7 @@ public class Container extends Point {
 	
 	private String wasteFraction;
 	public double capacity;
-	public Route assignedRoute;			// implement everywhere
+	public Route assignedRoute;
 	
 	public double shapePweek;
 	public double scalePweek;	
@@ -62,11 +62,13 @@ public class Container extends Point {
 		this.procTime = contproctime;		
 	}
 
+	// calculate the number of days until a containers' desired emptying day
 	public int noOfDaysUntilDED() {
 		int noOfDays = this.DED - ExperimentController.currDay;
 		return noOfDays;
 	}
 	
+	// calculate the expected content of a container at a certain date, considering the current load and expected daily fill rate
 	public double expectedLoadStartDay(int dayNr) {
 		
 		double expLoad = 0;
@@ -100,6 +102,7 @@ public class Container extends Point {
 	}
 	
 	
+	// calculate the probability that a container is full on a certain day, using the Gamma-distribution
 	public double probFullStartDay(int dayNr) {
 		int periodLength = 0;
 		double shapePeriod;
@@ -129,6 +132,7 @@ public class Container extends Point {
 	}
 	
 	
+	// calculate the timing penalty costs for emptying this container on a certain day
 	public double calcPenalty(int emptyingDay, double marginalCosts) {
 		
 		double penalty = 0;
@@ -159,6 +163,7 @@ public class Container extends Point {
 	}
 	
 	
+	// fill container with a randomly generated dump, expected current fill is also updated
 	public void dailyDepositUpdate() {
 		// update expected current fill
 		double shapeDay = shapePweek / 7;
@@ -180,6 +185,7 @@ public class Container extends Point {
 		}
 	}
 	
+	// empty the container and reset all other related variables
 	public void emptyContainer() {
 		// reset all fill levels
 		this.currFill = 0;
